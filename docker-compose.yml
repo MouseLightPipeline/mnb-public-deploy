@@ -84,15 +84,6 @@ services:
     networks:
       - back_tier
 
-  transform-client:
-    image: mouselightdatabrowser/transform-client
-    container_name: "ndb_transform_client"
-    hostname: transform-client
-    environment:
-      NODE_ENV: production
-    networks:
-      - back_tier
-
   transform-search:
     image: mouselightdatabrowser/transform-search
     hostname: transform-search
