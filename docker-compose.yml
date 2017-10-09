@@ -1,0 +1,118 @@
+version: '3.1'
+services:
+  metrics-db:
+    image: influxdb
+    hostname: metrics-db
+    volumes:
+      - influx_data:/var/lib/influxdb
+      - influx_config:/etc/influxdb
+    networks:
+      - back_tier
+
+  grafana:
+    image: grafana/grafana
+    hostname: grafana-metrics
+    environment:
+      GF_AUTH_ANONYMOUS_ENABLED: 1
+      GF_AUTH_ANONYMOUS_ORG_NAME: "Janelia"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - grafana_config:/etc/grafana
+      - grafana_log:/var/log/grafana
+    networks:
+      - back_tier
+
+  sample-db:
+    image: postgres:9
+    container_name: "ndb_sample_db"
+    hostname: sample-db
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_PASSWORD: "pgsecret"
+    volumes:
+      - sample_data:/var/lib/postgresql/data
+      - ./datastore/sample:/docker-entrypoint-initdb.d
+    networks:
+      - back_tier
+
+  swc-db:
+    image: postgres:9
+    container_name: "ndb_swc_db"
+    hostname: swc-db
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_PASSWORD: "pgsecret"
+    volumes:
+      - swc_data:/var/lib/postgresql/data
+      - ./datastore/swc:/docker-entrypoint-initdb.d
+    networks:
+      - back_tier
+
+  transform-db:
+    image: postgres:9
+    container_name: "ndb_transform_db"
+    hostname: transform-db
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_PASSWORD: "pgsecret"
+    volumes:
+      - transform_data:/var/lib/postgresql/data
+      - ./datastore/transform:/docker-entrypoint-initdb.d
+    networks:
+      - back_tier
+
+  data:
+    image: mouselightdatabrowser/data
+    container_name: "ndb_data"
+    hostname: ndb-data
+    environment:
+      NODE_ENV: production
+    volumes:
+      - /opt/data:/opt/data
+    networks:
+      - back_tier
+
+  transform-api:
+    image: mouselightdatabrowser/transform-api
+    container_name: "ndb_transform_api"
+    hostname: transform-api
+    environment:
+      NODE_ENV: production
+    volumes:
+      - /opt/data:/opt/data
+      - "${TRANSFORM_VOL}:."
+    networks:
+      - back_tier
+
+  transform-client:
+    image: mouselightdatabrowser/transform-client
+    container_name: "ndb_transform_client"
+    hostname: transform-client
+    environment:
+      NODE_ENV: production
+    networks:
+      - back_tier
+
+  transform-search:
+    image: mouselightdatabrowser/transform-search
+    hostname: transform-search
+    environment:
+      NODE_ENV: production
+    ports:
+      - 80:9664
+    networks:
+      - back_tier
+
+volumes:
+  influx_data:
+  influx_config:
+  grafana_config:
+  grafana_log:
+  grafana_data:
+  mq_data:
+  sample_data:
+  swc_data:
+  transform_data:
+
+networks:
+  back_tier:
