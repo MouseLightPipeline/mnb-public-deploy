@@ -80,7 +80,7 @@ services:
       NODE_ENV: production
     volumes:
       - /opt/data:/opt/data
-      - "${TRANSFORM_VOL}:."
+      - ".:/groups/mousebrainmicro/mousebrainmicro"
     networks:
       - back_tier
 
