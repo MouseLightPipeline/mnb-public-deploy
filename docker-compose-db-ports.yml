@@ -1,0 +1,98 @@
+version: '3.1'
+services:
+  metrics-db:
+    image: influxdb
+    hostname: metrics-db
+    volumes:
+      - influx_data:/var/lib/influxdb
+      - influx_config:/etc/influxdb
+    networks:
+      - back_tier
+
+  sample-db:
+    image: postgres:9
+    container_name: "ndb_sample_db"
+    hostname: sample-db
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_PASSWORD: "pgsecret"
+    volumes:
+      - sample_data:/var/lib/postgresql/data
+      - ./datastore/sample:/docker-entrypoint-initdb.d
+    ports:
+      - 5432:5432
+    networks:
+      - back_tier
+
+  swc-db:
+    image: postgres:9
+    container_name: "ndb_swc_db"
+    hostname: swc-db
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_PASSWORD: "pgsecret"
+    volumes:
+      - swc_data:/var/lib/postgresql/data
+      - ./datastore/swc:/docker-entrypoint-initdb.d
+    ports:
+      - 5433:5432
+    networks:
+      - back_tier
+
+  transform-db:
+    image: postgres:9
+    container_name: "ndb_transform_db"
+    hostname: transform-db
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_PASSWORD: "pgsecret"
+    volumes:
+      - transform_data:/var/lib/postgresql/data
+      - ./datastore/transform:/docker-entrypoint-initdb.d
+    ports:
+      - 5434:5432
+    networks:
+      - back_tier
+
+  data:
+    image: mouselightdatabrowser/data
+    container_name: "ndb_data"
+    hostname: ndb-data
+    environment:
+      NODE_ENV: production
+    volumes:
+      - /opt/data:/opt/data
+    networks:
+      - back_tier
+
+  transform-api:
+    image: mouselightdatabrowser/transform-api
+    container_name: "ndb_transform_api"
+    hostname: transform-api
+    environment:
+      NODE_ENV: production
+    volumes:
+      - /opt/data:/opt/data
+      - ".:/groups/mousebrainmicro/mousebrainmicro"
+    networks:
+      - back_tier
+
+  transform-search:
+    image: mouselightdatabrowser/transform-search
+    hostname: transform-search
+    environment:
+      NODE_ENV: production
+    ports:
+      - 80:9664
+    networks:
+      - back_tier
+
+volumes:
+  influx_data:
+  influx_config:
+  sample_data:
+  swc_data:
+  transform_data:
+
+networks:
+  back_tier:
