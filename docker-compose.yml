@@ -9,19 +9,6 @@ services:
     networks:
       - back_tier
 
-  grafana:
-    image: grafana/grafana
-    hostname: grafana-metrics
-    environment:
-      GF_AUTH_ANONYMOUS_ENABLED: 1
-      GF_AUTH_ANONYMOUS_ORG_NAME: "Janelia"
-    volumes:
-      - grafana_data:/var/lib/grafana
-      - grafana_config:/etc/grafana
-      - grafana_log:/var/log/grafana
-    networks:
-      - back_tier
-
   sample-db:
     image: postgres:9
     container_name: "ndb_sample_db"
@@ -97,10 +84,6 @@ services:
 volumes:
   influx_data:
   influx_config:
-  grafana_config:
-  grafana_log:
-  grafana_data:
-  mq_data:
   sample_data:
   swc_data:
   transform_data:
