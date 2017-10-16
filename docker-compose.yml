@@ -3,6 +3,8 @@ services:
   metrics-db:
     image: influxdb
     hostname: metrics-db
+      ports:
+        - 8086:8086
     volumes:
       - influx_data:/var/lib/influxdb
       - influx_config:/etc/influxdb
