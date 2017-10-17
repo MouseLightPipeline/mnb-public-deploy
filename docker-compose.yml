@@ -94,6 +94,18 @@ services:
     networks:
       - back_tier
 
+  transform-api-3:
+    image: mouselightdatabrowser/transform-api
+    container_name: "ndb_transform_api-3"
+    hostname: transform-api-3
+    environment:
+      NODE_ENV: production
+    volumes:
+      - /opt/data:/opt/data
+      - "${TRANSFORM_VOL}:/groups/mousebrainmicro/mousebrainmicro"
+    networks:
+      - back_tier
+
   transform-search-1:
     image: mouselightdatabrowser/transform-search
     hostname: transform-search-1
@@ -108,6 +120,15 @@ services:
     environment:
       NODE_ENV: production
       TRANSFORM_API_HOST: transform-api-2
+    networks:
+      - back_tier
+
+  transform-search-3:
+    image: mouselightdatabrowser/transform-search
+    hostname: transform-search-3
+    environment:
+      NODE_ENV: production
+      TRANSFORM_API_HOST: transform-api-3
     networks:
       - back_tier
 
