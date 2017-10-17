@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-docker run --rm --network ne_back_tier -e NODE_ENV=production mouselightdatabrowser/data /apps/migrate.sh
