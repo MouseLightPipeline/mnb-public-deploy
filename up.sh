@@ -6,4 +6,4 @@ if [ -z "${TRANSFORM_VOL}" ]; then
     export TRANSFORM_VOL="/mnt/groups"
 fi
 
-docker-compose -p ndb up -d
+docker-compose -p ne up -d

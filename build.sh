@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-docker-compose -p ndb build
+docker-compose -p ne build

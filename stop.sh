@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-docker-compose -p ndb stop
+docker-compose -p ne stop

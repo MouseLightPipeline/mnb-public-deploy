@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-docker-compose -p ndb down
+docker-compose -p ne down

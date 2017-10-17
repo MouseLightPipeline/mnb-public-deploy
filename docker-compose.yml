@@ -1,5 +1,14 @@
 version: '3.1'
 services:
+  proxy:
+    build:
+      context:  ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    networks:
+      - back_tier
+
   metrics-db:
     image: influxdb
     hostname: metrics-db
@@ -73,13 +82,32 @@ services:
     networks:
       - back_tier
 
-  transform-search:
-    image: mouselightdatabrowser/transform-search
-    hostname: transform-search
+  transform-api-2:
+    image: mouselightdatabrowser/transform-api
+    container_name: "ndb_transform_api-2"
+    hostname: transform-api-2
     environment:
       NODE_ENV: production
-    ports:
-      - 80:9664
+    volumes:
+      - /opt/data:/opt/data
+      - "${TRANSFORM_VOL}:/groups/mousebrainmicro/mousebrainmicro"
+    networks:
+      - back_tier
+
+  transform-search-1:
+    image: mouselightdatabrowser/transform-search
+    hostname: transform-search-1
+    environment:
+      NODE_ENV: production
+    networks:
+      - back_tier
+
+  transform-search-2:
+    image: mouselightdatabrowser/transform-search
+    hostname: transform-search-2
+    environment:
+      NODE_ENV: production
+      TRANSFORM_API_HOST: transform-api-2
     networks:
       - back_tier
 
