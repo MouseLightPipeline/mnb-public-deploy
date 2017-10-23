@@ -20,45 +20,6 @@ services:
     networks:
       - back_tier
 
-  sample-db:
-    image: postgres:9
-    container_name: "ndb_sample_db"
-    hostname: sample-db
-    environment:
-      PGDATA: /var/lib/postgresql/data/pgdata
-      POSTGRES_PASSWORD: "pgsecret"
-    volumes:
-      - sample_data:/var/lib/postgresql/data
-      - ./datastore/sample:/docker-entrypoint-initdb.d
-    networks:
-      - back_tier
-
-  swc-db:
-    image: postgres:9
-    container_name: "ndb_swc_db"
-    hostname: swc-db
-    environment:
-      PGDATA: /var/lib/postgresql/data/pgdata
-      POSTGRES_PASSWORD: "pgsecret"
-    volumes:
-      - swc_data:/var/lib/postgresql/data
-      - ./datastore/swc:/docker-entrypoint-initdb.d
-    networks:
-      - back_tier
-
-  transform-db:
-    image: postgres:9
-    container_name: "ndb_transform_db"
-    hostname: transform-db
-    environment:
-      PGDATA: /var/lib/postgresql/data/pgdata
-      POSTGRES_PASSWORD: "pgsecret"
-    volumes:
-      - transform_data:/var/lib/postgresql/data
-      - ./datastore/transform:/docker-entrypoint-initdb.d
-    networks:
-      - back_tier
-
   data:
     image: mouselightdatabrowser/data
     container_name: "ndb_data"
@@ -70,74 +31,70 @@ services:
     networks:
       - back_tier
 
-  transform-api:
-    image: mouselightdatabrowser/transform-api
-    container_name: "ndb_transform_api"
-    hostname: transform-api
+  search-api-1:
+    image: mouselightdatabrowser/search-api
+    container_name: "ndb_search-api-1"
+    hostname: search-api-1
     environment:
       NODE_ENV: production
-    volumes:
-      - /opt/data:/opt/data
-      - ".:/groups/mousebrainmicro/mousebrainmicro"
+      NEURON_EXPLORER_RELEASE: release
     networks:
       - back_tier
 
-  transform-api-2:
-    image: mouselightdatabrowser/transform-api
-    container_name: "ndb_transform_api-2"
-    hostname: transform-api-2
+  search-client-1:
+     image: mouselightdatabrowser/search-client
+     hostname: search-client-1
+     container_name: "ndb_search-client-1"
+     environment:
+       NODE_ENV: production
+       TRANSFORM_API_HOST: search-api-1
+     networks:
+       - back_tier
+
+  search-api-2:
+    image: mouselightdatabrowser/search-api
+    container_name: "ndb_search-api-2"
+    hostname: search-api-2
     environment:
       NODE_ENV: production
-    volumes:
-      - /opt/data:/opt/data
-      - "${TRANSFORM_VOL}:/groups/mousebrainmicro/mousebrainmicro"
+      NEURON_EXPLORER_RELEASE: release
     networks:
       - back_tier
 
-  transform-api-3:
-    image: mouselightdatabrowser/transform-api
-    container_name: "ndb_transform_api-3"
-    hostname: transform-api-3
+  search-client-2:
+     image: mouselightdatabrowser/search-client
+     hostname: search-client-2
+     container_name: "ndb_search-client-2"
+     environment:
+       NODE_ENV: production
+       TRANSFORM_API_HOST: search-api-2
+     networks:
+       - back_tier
+
+  search-api-3:
+    image: mouselightdatabrowser/search-api
+    container_name: "ndb_search-api-3"
+    hostname: search-api-3
     environment:
       NODE_ENV: production
-    volumes:
-      - /opt/data:/opt/data
-      - "${TRANSFORM_VOL}:/groups/mousebrainmicro/mousebrainmicro"
+      NEURON_EXPLORER_RELEASE: release
     networks:
       - back_tier
 
-  transform-search-1:
-    image: mouselightdatabrowser/transform-search
-    hostname: transform-search-1
-    environment:
-      NODE_ENV: production
-    networks:
-      - back_tier
-
-  transform-search-2:
-    image: mouselightdatabrowser/transform-search
-    hostname: transform-search-2
-    environment:
-      NODE_ENV: production
-      TRANSFORM_API_HOST: transform-api-2
-    networks:
-      - back_tier
-
-  transform-search-3:
-    image: mouselightdatabrowser/transform-search
-    hostname: transform-search-3
-    environment:
-      NODE_ENV: production
-      TRANSFORM_API_HOST: transform-api-3
-    networks:
-      - back_tier
+  search-client-3:
+     image: mouselightdatabrowser/search-client
+     hostname: search-client-3
+     container_name: "ndb_search-client-3"
+     environment:
+       NODE_ENV: production
+       TRANSFORM_API_HOST: search-api-3
+     networks:
+       - back_tier
 
 volumes:
   influx_data:
   influx_config:
-  sample_data:
-  swc_data:
-  transform_data:
+  search_data:
 
 networks:
   back_tier:
