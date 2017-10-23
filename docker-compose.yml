@@ -20,6 +20,21 @@ services:
     networks:
       - back_tier
 
+  search-db:
+    image: postgres:9
+    container_name: "ndb_search_db"
+    hostname: search-db
+    ports:
+      - 5435:5432
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_PASSWORD: "pgsecret"
+    volumes:
+      - search_data:/var/lib/postgresql/data
+      - ./datastore/search:/docker-entrypoint-initdb.d
+    networks:
+      - back_tier
+
   data:
     image: mouselightdatabrowser/data
     container_name: "ndb_data"
