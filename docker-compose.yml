@@ -50,7 +50,7 @@ services:
     hostname: search-api-1
     environment:
       NODE_ENV: production
-      NEURON_EXPLORER_RELEASE: release
+      NEURON_EXPLORER_RELEASE: public
     networks:
       - back_tier
 
@@ -70,7 +70,7 @@ services:
     hostname: search-api-2
     environment:
       NODE_ENV: production
-      NEURON_EXPLORER_RELEASE: release
+      NEURON_EXPLORER_RELEASE: public
     networks:
       - back_tier
 
@@ -90,7 +90,7 @@ services:
     hostname: search-api-3
     environment:
       NODE_ENV: production
-      NEURON_EXPLORER_RELEASE: release
+      NEURON_EXPLORER_RELEASE: public
     networks:
       - back_tier
 
