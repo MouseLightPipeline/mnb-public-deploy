@@ -137,6 +137,8 @@ services:
     build:
       context:  ./nginx
       dockerfile: Dockerfile
+    volumes:
+      - nginx_log:/var/log/nginx
     ports:
       - 80:80
     networks:
@@ -150,6 +152,7 @@ volumes:
   influx_data:
   influx_config:
   search_data:
+  nginx_log:
 
 networks:
   back_tier:
