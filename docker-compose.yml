@@ -156,9 +156,7 @@ services:
       - metrics-db
 
   proxy:
-    build:
-      context:  ./nginx
-      dockerfile: Dockerfile
+    image: mouselightdatabrowser/nb-load
     volumes:
       - nginx_log:/var/log/nginx
     ports:
