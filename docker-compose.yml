@@ -163,6 +163,9 @@ services:
       - 80:80
     networks:
       - back_tier
+    environment:
+      API_KEY: 14e0e4daf2a89c47da4c1c977fa268cb
+      AMPLIFY_IMAGENAME: nb-public
     links:
       - export-api-1
       - export-api-2
