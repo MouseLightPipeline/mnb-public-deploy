@@ -157,8 +157,6 @@ services:
 
   proxy:
     image: mouselightdatabrowser/nb-load
-    volumes:
-      - nginx_log:/var/log/nginx
     ports:
       - 80:80
     networks:
