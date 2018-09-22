@@ -1,7 +1,7 @@
 version: '3.1'
 services:
   metrics-db:
-    image: influxdb
+    image: influxdb:1.5
     hostname: metrics-db
     ports:
       - 8086:8086
