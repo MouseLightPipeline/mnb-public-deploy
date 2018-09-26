@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-docker-compose -p ne logs --follow
+docker-compose -p mnb logs --follow

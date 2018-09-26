@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-docker-compose -p ne stop
+docker-compose -p mnb stop

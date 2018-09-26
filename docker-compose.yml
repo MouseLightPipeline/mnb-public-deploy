@@ -13,38 +13,23 @@ services:
 
   search-db:
     image: postgres:9
-    container_name: "ndb_search_db"
     hostname: search-db
     environment:
       PGDATA: /var/lib/postgresql/data/pgdata
-      POSTGRES_PASSWORD: "pgsecret"
+      POSTGRES_PASSWORD: ${DATABASE_PW}
     volumes:
       - search_data:/var/lib/postgresql/data
       - ./datastore/search:/docker-entrypoint-initdb.d
     networks:
       - back_tier
 
-  data:
-    image: mouselightdatabrowser/data
-    container_name: "ndb_data"
-    hostname: ndb-data
-    environment:
-      NODE_ENV: production
-    volumes:
-      - /opt/data:/opt/data
-    networks:
-      - back_tier
-    links:
-      - search-db
-      - metrics-db
-
   search-api-1:
-    image: mouselightdatabrowser/search-api
-    container_name: "ndb_search-api-1"
+    image: mouselightdatabrowser/search-api:1.4
     hostname: search-api-1
     environment:
       NODE_ENV: production
-      NEURON_EXPLORER_RELEASE: public
+      NEURON_BROWSER_RELEASE: public
+      DATABASE_PW:
     networks:
       - back_tier
     links:
@@ -52,12 +37,12 @@ services:
       - metrics-db
 
   search-api-2:
-    image: mouselightdatabrowser/search-api
-    container_name: "ndb_search-api-2"
+    image: mouselightdatabrowser/search-api:1.4
     hostname: search-api-2
     environment:
       NODE_ENV: production
-      NEURON_EXPLORER_RELEASE: public
+      NEURON_BROWSER_RELEASE: public
+      DATABASE_PW:
     networks:
       - back_tier
     links:
@@ -65,12 +50,12 @@ services:
       - metrics-db
 
   search-api-3:
-    image: mouselightdatabrowser/search-api
-    container_name: "ndb_search-api-3"
+    image: mouselightdatabrowser/search-api:1.4
     hostname: search-api-3
     environment:
       NODE_ENV: production
-      NEURON_EXPLORER_RELEASE: public
+      NEURON_BROWSER_RELEASE: public
+      DATABASE_PW:
     networks:
       - back_tier
     links:
@@ -78,12 +63,12 @@ services:
       - metrics-db
 
   search-api-4:
-    image: mouselightdatabrowser/search-api
-    container_name: "ndb_search-api-4"
+    image: mouselightdatabrowser/search-api:1.4
     hostname: search-api-4
     environment:
       NODE_ENV: production
-      NEURON_EXPLORER_RELEASE: public
+      NEURON_BROWSER_RELEASE: public
+      DATABASE_PW:
     networks:
       - back_tier
     links:
@@ -91,12 +76,12 @@ services:
       - metrics-db
 
   search-api-5:
-    image: mouselightdatabrowser/search-api
-    container_name: "ndb_search-api-5"
+    image: mouselightdatabrowser/search-api:1.4
     hostname: search-api-5
     environment:
       NODE_ENV: production
-      NEURON_EXPLORER_RELEASE: public
+      NEURON_BROWSER_RELEASE: public
+      DATABASE_PW:
     networks:
       - back_tier
     links:
@@ -104,12 +89,12 @@ services:
       - metrics-db
 
   search-api-6:
-    image: mouselightdatabrowser/search-api
-    container_name: "ndb_search-api-6"
+    image: mouselightdatabrowser/search-api:1.4
     hostname: search-api-6
     environment:
       NODE_ENV: production
-      NEURON_EXPLORER_RELEASE: public
+      NEURON_BROWSER_RELEASE: public
+      DATABASE_PW:
     networks:
       - back_tier
     links:
@@ -117,12 +102,11 @@ services:
       - metrics-db
 
   search-client-1:
-     image: mouselightdatabrowser/search-client
+     image: mouselightdatabrowser/search-client:1.4
      hostname: search-client-1
-     container_name: "ndb_search-client-1"
      environment:
        NODE_ENV: production
-       TRANSFORM_API_HOST: search-api-1
+       SEARCH_API_HOST: search-api-1
        NB_OMIT_PASSWORD: "omit"
      networks:
        - back_tier
@@ -130,12 +114,11 @@ services:
        - search-api-1
 
   search-client-2:
-     image: mouselightdatabrowser/search-client
+     image: mouselightdatabrowser/search-client:1.4
      hostname: search-client-2
-     container_name: "ndb_search-client-2"
      environment:
        NODE_ENV: production
-       TRANSFORM_API_HOST: search-api-2
+       SEARCH_API_HOST: search-api-2
        NB_OMIT_PASSWORD: "omit"
      networks:
        - back_tier
@@ -143,8 +126,7 @@ services:
        - search-api-2
 
   export-api-1:
-    image: mouselightdatabrowser/export-api
-    container_name: "ndb_export-api-1"
+    image: mouselightdatabrowser/export-api:1.4
     hostname: export-api-1
     environment:
       NODE_ENV: production
@@ -156,8 +138,7 @@ services:
       - metrics-db
 
   export-api-2:
-    image: mouselightdatabrowser/export-api
-    container_name: "ndb_export-api-2"
+    image: mouselightdatabrowser/export-api:1.4
     hostname: export-api-2
     environment:
       NODE_ENV: production
@@ -169,14 +150,14 @@ services:
       - metrics-db
 
   proxy:
-    image: mouselightdatabrowser/nb-load
+    image: mouselightdatabrowser/public-proxy:1.4
     ports:
       - 80:80
     networks:
       - back_tier
     environment:
-      API_KEY: 14e0e4daf2a89c47da4c1c977fa268cb
-      AMPLIFY_IMAGENAME: nb-public
+      API_KEY: "${AMPLIFY_API_KEY}"
+      AMPLIFY_IMAGENAME:
     links:
       - export-api-1
       - export-api-2
