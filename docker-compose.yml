@@ -107,7 +107,7 @@ services:
      environment:
        NODE_ENV: production
        SEARCH_API_HOST: search-api-1
-       NB_OMIT_PASSWORD: "omit"
+       SEARCH_AUTH_REQUIRED: "false"
      networks:
        - back_tier
      links:
@@ -119,7 +119,7 @@ services:
      environment:
        NODE_ENV: production
        SEARCH_API_HOST: search-api-2
-       NB_OMIT_PASSWORD: "omit"
+       SEARCH_AUTH_REQUIRED: "false"
      networks:
        - back_tier
      links:
