@@ -16,7 +16,7 @@ services:
     hostname: search-db
     environment:
       PGDATA: /var/lib/postgresql/data/pgdata
-      POSTGRES_PASSWORD: ${DATABASE_PW}
+      POSTGRES_PASSWORD: "${DATABASE_PW}"
     volumes:
       - search_data:/var/lib/postgresql/data
       - ./datastore/search:/docker-entrypoint-initdb.d
@@ -151,13 +151,13 @@ services:
 
   proxy:
     image: mouselightdatabrowser/public-proxy:1.4
+    environment:
+      API_KEY: "${AMPLIFY_API_KEY}"
+      AMPLIFY_IMAGENAME:
     ports:
       - 80:80
     networks:
       - back_tier
-    environment:
-      API_KEY: "${AMPLIFY_API_KEY}"
-      AMPLIFY_IMAGENAME:
     links:
       - export-api-1
       - export-api-2
