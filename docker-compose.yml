@@ -32,6 +32,8 @@ services:
       DATABASE_PW:
     networks:
       - back_tier
+    volumes:
+      - "${MNB_LOG_VOLUME}:/var/log/mnb"
     links:
       - search-db
       - metrics-db
@@ -43,6 +45,8 @@ services:
       NODE_ENV: production
       NEURON_BROWSER_RELEASE: public
       DATABASE_PW:
+    volumes:
+      - "${MNB_LOG_VOLUME}:/var/log/mnb"
     networks:
       - back_tier
     links:
@@ -56,6 +60,8 @@ services:
       NODE_ENV: production
       NEURON_BROWSER_RELEASE: public
       DATABASE_PW:
+    volumes:
+      - "${MNB_LOG_VOLUME}:/var/log/mnb"
     networks:
       - back_tier
     links:
@@ -69,6 +75,8 @@ services:
       NODE_ENV: production
       NEURON_BROWSER_RELEASE: public
       DATABASE_PW:
+    volumes:
+      - "${MNB_LOG_VOLUME}:/var/log/mnb"
     networks:
       - back_tier
     links:
@@ -82,6 +90,8 @@ services:
       NODE_ENV: production
       NEURON_BROWSER_RELEASE: public
       DATABASE_PW:
+    volumes:
+      - "${MNB_LOG_VOLUME}:/var/log/mnb"
     networks:
       - back_tier
     links:
@@ -95,6 +105,8 @@ services:
       NODE_ENV: production
       NEURON_BROWSER_RELEASE: public
       DATABASE_PW:
+    volumes:
+      - "${MNB_LOG_VOLUME}:/var/log/mnb"
     networks:
       - back_tier
     links:
@@ -108,6 +120,8 @@ services:
        NODE_ENV: production
        SEARCH_API_HOST: search-api-1
        SEARCH_AUTH_REQUIRED: "false"
+     volumes:
+       - "${MNB_LOG_VOLUME}:/var/log/mnb"
      networks:
        - back_tier
      links:
@@ -120,6 +134,8 @@ services:
        NODE_ENV: production
        SEARCH_API_HOST: search-api-2
        SEARCH_AUTH_REQUIRED: "false"
+     volumes:
+       - "${MNB_LOG_VOLUME}:/var/log/mnb"
      networks:
        - back_tier
      links:
@@ -132,6 +148,7 @@ services:
       NODE_ENV: production
     volumes:
        - /data/export:/opt/data/export
+       - "${MNB_LOG_VOLUME}:/var/log/mnb"
     networks:
       - back_tier
     links:
@@ -144,6 +161,7 @@ services:
       NODE_ENV: production
     volumes:
        - /data/export:/opt/data/export
+       - "${MNB_LOG_VOLUME}:/var/log/mnb"
     networks:
       - back_tier
     links:
@@ -154,6 +172,8 @@ services:
     environment:
       API_KEY: "${AMPLIFY_API_KEY}"
       AMPLIFY_IMAGENAME:
+    volumes:
+      - "${MOUSELIGHT_LOG_VOLUME}:/var/logs/nginx"
     ports:
       - 80:80
     networks:
@@ -174,7 +194,6 @@ volumes:
   influx_data:
   influx_config:
   search_data:
-  nginx_log:
 
 networks:
   back_tier:
