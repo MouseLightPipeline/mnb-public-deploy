@@ -173,7 +173,7 @@ services:
       API_KEY: "${AMPLIFY_API_KEY}"
       AMPLIFY_IMAGENAME:
     volumes:
-      - "${MOUSELIGHT_LOG_VOLUME}:/var/logs/nginx"
+      - "${MNB_LOG_VOLUME}:/var/logs/nginx"
     ports:
       - 80:80
     networks:
