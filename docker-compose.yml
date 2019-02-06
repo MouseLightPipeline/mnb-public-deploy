@@ -169,7 +169,7 @@ services:
 
   static-api-1:
     image: mouselightdatabrowser/static-resources:1.4
-    hostname: static-api
+    hostname: static-api-1
     environment:
       NODE_ENV: production
     volumes:
@@ -177,9 +177,9 @@ services:
     networks:
       - back_tier
 
-  static-api-3:
+  static-api-2:
     image: mouselightdatabrowser/static-resources:1.4
-    hostname: static-api
+    hostname: static-api-2
     environment:
       NODE_ENV: production
     volumes:
