@@ -167,6 +167,26 @@ services:
     links:
       - metrics-db
 
+  static-api-1:
+    image: mouselightdatabrowser/static-resources:1.4
+    hostname: static-api
+    environment:
+      NODE_ENV: production
+    volumes:
+      - "${MNB_LOG_VOLUME}:/var/log/mnb"
+    networks:
+      - back_tier
+
+  static-api-3:
+    image: mouselightdatabrowser/static-resources:1.4
+    hostname: static-api
+    environment:
+      NODE_ENV: production
+    volumes:
+      - "${MNB_LOG_VOLUME}:/var/log/mnb"
+    networks:
+      - back_tier
+
   proxy:
     image: mouselightdatabrowser/public-proxy:1.4
     environment:
