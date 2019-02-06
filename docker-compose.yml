@@ -114,32 +114,32 @@ services:
       - metrics-db
 
   search-client-1:
-     image: mouselightdatabrowser/search-client:1.4
-     hostname: search-client-1
-     environment:
-       NODE_ENV: production
-       SEARCH_API_HOST: search-api-1
-       SEARCH_AUTH_REQUIRED: "false"
-     volumes:
-       - "${MNB_LOG_VOLUME}:/var/log/mnb"
-     networks:
-       - back_tier
-     links:
-       - search-api-1
+    image: mouselightdatabrowser/search-client:1.4
+    hostname: search-client-1
+    environment:
+      NODE_ENV: production
+      SEARCH_API_HOST: search-api-1
+      SEARCH_AUTH_REQUIRED: "false"
+    volumes:
+      - "${MNB_LOG_VOLUME}:/var/log/mnb"
+    networks:
+      - back_tier
+    links:
+      - search-api-1
 
   search-client-2:
-     image: mouselightdatabrowser/search-client:1.4
-     hostname: search-client-2
-     environment:
-       NODE_ENV: production
-       SEARCH_API_HOST: search-api-2
-       SEARCH_AUTH_REQUIRED: "false"
-     volumes:
-       - "${MNB_LOG_VOLUME}:/var/log/mnb"
-     networks:
-       - back_tier
-     links:
-       - search-api-2
+    image: mouselightdatabrowser/search-client:1.4
+    hostname: search-client-2
+    environment:
+      NODE_ENV: production
+      SEARCH_API_HOST: search-api-2
+      SEARCH_AUTH_REQUIRED: "false"
+    volumes:
+      - "${MNB_LOG_VOLUME}:/var/log/mnb"
+    networks:
+      - back_tier
+    links:
+      - search-api-2
 
   export-api-1:
     image: mouselightdatabrowser/export-api:1.4
@@ -147,8 +147,8 @@ services:
     environment:
       NODE_ENV: production
     volumes:
-       - /data/export:/opt/data/export
-       - "${MNB_LOG_VOLUME}:/var/log/mnb"
+      - "${MNB_EXPORT_VOLUME}:/opt/data/export"
+      - "${MNB_LOG_VOLUME}:/var/log/mnb"
     networks:
       - back_tier
     links:
@@ -160,8 +160,8 @@ services:
     environment:
       NODE_ENV: production
     volumes:
-       - /data/export:/opt/data/export
-       - "${MNB_LOG_VOLUME}:/var/log/mnb"
+      - "${MNB_EXPORT_VOLUME}:/opt/data/export"
+      - "${MNB_LOG_VOLUME}:/var/log/mnb"
     networks:
       - back_tier
     links:
