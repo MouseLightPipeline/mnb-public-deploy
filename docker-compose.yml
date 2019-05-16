@@ -114,7 +114,7 @@ services:
       - metrics-db
 
   search-client-1:
-    image: mouselightdatabrowser/search-client:1.4.2
+    image: mouselightdatabrowser/search-client:1.4.3
     hostname: search-client-1
     environment:
       NODE_ENV: production
@@ -128,7 +128,7 @@ services:
       - search-api-1
 
   search-client-2:
-    image: mouselightdatabrowser/search-client:1.4.2
+    image: mouselightdatabrowser/search-client:1.4.3
     hostname: search-client-2
     environment:
       NODE_ENV: production
