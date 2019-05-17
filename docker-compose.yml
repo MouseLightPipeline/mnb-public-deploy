@@ -172,8 +172,10 @@ services:
     hostname: static-api-1
     environment:
       NODE_ENV: production
+      STATIC_SLICE_MOUNT_POINT: "/data/slice/"
     volumes:
       - "${MNB_LOG_VOLUME}:/var/log/mnb"
+      - "${MNB_SLICE_LOCATION}:/data/slice"
     networks:
       - back_tier
 
@@ -182,8 +184,10 @@ services:
     hostname: static-api-2
     environment:
       NODE_ENV: production
+      STATIC_SLICE_MOUNT_POINT: "/data/slice/"
     volumes:
       - "${MNB_LOG_VOLUME}:/var/log/mnb"
+      - "${MNB_SLICE_LOCATION}:/data/slice"
     networks:
       - back_tier
 
