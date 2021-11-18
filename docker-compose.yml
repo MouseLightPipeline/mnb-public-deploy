@@ -148,7 +148,7 @@ services:
       - search-api-2
 
   export-api-1:
-    image: mouselightdatabrowser/export-api:1.4
+    image: mouselightdatabrowser/export-api:1.6
     hostname: export-api-1
     environment:
       NODE_ENV: production
@@ -161,7 +161,7 @@ services:
       - metrics-db
 
   export-api-2:
-    image: mouselightdatabrowser/export-api:1.4
+    image: mouselightdatabrowser/export-api:1.6
     hostname: export-api-2
     environment:
       NODE_ENV: production
