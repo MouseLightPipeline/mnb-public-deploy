@@ -198,7 +198,7 @@ services:
       - back_tier
 
   proxy:
-    image: mouselightdatabrowser/public-proxy:1.4
+    image: mouselightdatabrowser/public-proxy:1.6
     environment:
       API_KEY: "${AMPLIFY_API_KEY}"
       AMPLIFY_IMAGENAME:
