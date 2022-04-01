@@ -198,12 +198,13 @@ services:
       - back_tier
 
   proxy:
-    image: mouselightdatabrowser/public-proxy:1.6
+    image: mouselightdatabrowser/public-proxy:1.7
     environment:
       API_KEY: "${AMPLIFY_API_KEY}"
       AMPLIFY_IMAGENAME:
     volumes:
       - "${MNB_LOG_VOLUME}:/var/logs/nginx"
+      - "${MNB_DOWNLOAD_VOLUME}:/www/download"
     ports:
       - ${MNB_PORT}:80
     networks:
